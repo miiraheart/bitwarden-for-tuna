@@ -1,0 +1,455 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BA000000000000000000B101 /* BitwardenExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A101 /* BitwardenExtension.swift */; };
+		BA000000000000000000B102 /* BitwardenSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A102 /* BitwardenSettings.swift */; };
+		BA000000000000000000B103 /* BitwardenModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A103 /* BitwardenModels.swift */; };
+		BA000000000000000000B104 /* BitwardenHTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A104 /* BitwardenHTTP.swift */; };
+		BA000000000000000000B105 /* BitwardenServeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A105 /* BitwardenServeClient.swift */; };
+		BA000000000000000000B106 /* BitwardenServeProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A106 /* BitwardenServeProcess.swift */; };
+		BA000000000000000000B107 /* BitwardenCLI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A107 /* BitwardenCLI.swift */; };
+		BA000000000000000000B108 /* BitwardenClipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A108 /* BitwardenClipboard.swift */; };
+		BA000000000000000000B109 /* BitwardenSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A109 /* BitwardenSearch.swift */; };
+		BA000000000000000000B110 /* BitwardenVaultSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A110 /* BitwardenVaultSupport.swift */; };
+		BA000000000000000000B111 /* BitwardenVault.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A111 /* BitwardenVault.swift */; };
+		BA000000000000000000B112 /* BitwardenItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A112 /* BitwardenItems.swift */; };
+		BA000000000000000000B113 /* BitwardenCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A113 /* BitwardenCatalog.swift */; };
+		BA000000000000000000B114 /* BitwardenActionsCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A114 /* BitwardenActionsCatalog.swift */; };
+		BA000000000000000000B121 /* BitwardenTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A121 /* BitwardenTestSupport.swift */; };
+		BA000000000000000000B122 /* BitwardenExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A122 /* BitwardenExtensionTests.swift */; };
+		BA000000000000000000B123 /* BitwardenModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A123 /* BitwardenModelTests.swift */; };
+		BA000000000000000000B124 /* BitwardenServeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A124 /* BitwardenServeTests.swift */; };
+		BA000000000000000000B125 /* BitwardenVaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A125 /* BitwardenVaultTests.swift */; };
+		BA000000000000000000B126 /* BitwardenCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A126 /* BitwardenCatalogTests.swift */; };
+		BA000000000000000000B127 /* BitwardenProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A127 /* BitwardenProviderTests.swift */; };
+		BA000000000000000000B131 /* TunaBitwarden.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A131 /* TunaBitwarden.framework */; };
+		BA000000000000000000B133 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A133 /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BA000000000000000000C103 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA000000000000000000D101 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA000000000000000000C101;
+			remoteInfo = BitwardenExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BA000000000000000000A101 /* BitwardenExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenExtension.swift; sourceTree = "<group>"; };
+		BA000000000000000000A102 /* BitwardenSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenSettings.swift; sourceTree = "<group>"; };
+		BA000000000000000000A103 /* BitwardenModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenModels.swift; sourceTree = "<group>"; };
+		BA000000000000000000A104 /* BitwardenHTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenHTTP.swift; sourceTree = "<group>"; };
+		BA000000000000000000A105 /* BitwardenServeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenServeClient.swift; sourceTree = "<group>"; };
+		BA000000000000000000A106 /* BitwardenServeProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenServeProcess.swift; sourceTree = "<group>"; };
+		BA000000000000000000A107 /* BitwardenCLI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenCLI.swift; sourceTree = "<group>"; };
+		BA000000000000000000A108 /* BitwardenClipboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenClipboard.swift; sourceTree = "<group>"; };
+		BA000000000000000000A109 /* BitwardenSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenSearch.swift; sourceTree = "<group>"; };
+		BA000000000000000000A110 /* BitwardenVaultSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenVaultSupport.swift; sourceTree = "<group>"; };
+		BA000000000000000000A111 /* BitwardenVault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenVault.swift; sourceTree = "<group>"; };
+		BA000000000000000000A112 /* BitwardenItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenItems.swift; sourceTree = "<group>"; };
+		BA000000000000000000A113 /* BitwardenCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenCatalog.swift; sourceTree = "<group>"; };
+		BA000000000000000000A114 /* BitwardenActionsCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenActionsCatalog.swift; sourceTree = "<group>"; };
+		BA000000000000000000A121 /* BitwardenTestSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BitwardenTestSupport.swift; sourceTree = "<group>"; };
+		BA000000000000000000A122 /* BitwardenExtensionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BitwardenExtensionTests.swift; sourceTree = "<group>"; };
+		BA000000000000000000A123 /* BitwardenModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BitwardenModelTests.swift; sourceTree = "<group>"; };
+		BA000000000000000000A124 /* BitwardenServeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BitwardenServeTests.swift; sourceTree = "<group>"; };
+		BA000000000000000000A125 /* BitwardenVaultTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BitwardenVaultTests.swift; sourceTree = "<group>"; };
+		BA000000000000000000A126 /* BitwardenCatalogTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BitwardenCatalogTests.swift; sourceTree = "<group>"; };
+		BA000000000000000000A127 /* BitwardenProviderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BitwardenProviderTests.swift; sourceTree = "<group>"; };
+		BA000000000000000000A130 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA000000000000000000A131 /* TunaBitwarden.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TunaBitwarden.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA000000000000000000A132 /* BitwardenExtensionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BitwardenExtensionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA000000000000000000A133 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BA000000000000000000F102 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA000000000000000000F105 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA000000000000000000B133 /* Cocoa.framework in Frameworks */,
+				BA000000000000000000B131 /* TunaBitwarden.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BA000000000000000000E101 = {
+			isa = PBXGroup;
+			children = (
+				BA000000000000000000E102 /* . */,
+				BA000000000000000000E103 /* Products */,
+				BA000000000000000000E104 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		BA000000000000000000E102 /* . */ = {
+			isa = PBXGroup;
+			children = (
+				BA000000000000000000A101 /* BitwardenExtension.swift */,
+				BA000000000000000000A102 /* BitwardenSettings.swift */,
+				BA000000000000000000A103 /* BitwardenModels.swift */,
+				BA000000000000000000A104 /* BitwardenHTTP.swift */,
+				BA000000000000000000A105 /* BitwardenServeClient.swift */,
+				BA000000000000000000A106 /* BitwardenServeProcess.swift */,
+				BA000000000000000000A107 /* BitwardenCLI.swift */,
+				BA000000000000000000A108 /* BitwardenClipboard.swift */,
+				BA000000000000000000A109 /* BitwardenSearch.swift */,
+				BA000000000000000000A110 /* BitwardenVaultSupport.swift */,
+				BA000000000000000000A111 /* BitwardenVault.swift */,
+				BA000000000000000000A112 /* BitwardenItems.swift */,
+				BA000000000000000000A113 /* BitwardenCatalog.swift */,
+				BA000000000000000000A114 /* BitwardenActionsCatalog.swift */,
+				BA000000000000000000A130 /* Info.plist */,
+				BA000000000000000000A121 /* BitwardenTestSupport.swift */,
+				BA000000000000000000A122 /* BitwardenExtensionTests.swift */,
+				BA000000000000000000A123 /* BitwardenModelTests.swift */,
+				BA000000000000000000A124 /* BitwardenServeTests.swift */,
+				BA000000000000000000A125 /* BitwardenVaultTests.swift */,
+				BA000000000000000000A126 /* BitwardenCatalogTests.swift */,
+				BA000000000000000000A127 /* BitwardenProviderTests.swift */,
+			);
+			path = .;
+			sourceTree = "<group>";
+		};
+		BA000000000000000000E103 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BA000000000000000000A131 /* TunaBitwarden.framework */,
+				BA000000000000000000A132 /* BitwardenExtensionTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BA000000000000000000E104 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BA000000000000000000E105 /* OS X */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA000000000000000000E105 /* OS X */ = {
+			isa = PBXGroup;
+			children = (
+				BA000000000000000000A133 /* Cocoa.framework */,
+			);
+			name = "OS X";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BA000000000000000000C101 /* BitwardenExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA000000000000000000A013 /* Build configuration list for PBXNativeTarget "BitwardenExtension" */;
+			buildPhases = (
+				BA000000000000000000F101 /* Sources */,
+				BA000000000000000000F102 /* Frameworks */,
+				BA000000000000000000F103 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BitwardenExtension;
+			packageProductDependencies = (
+				BA000000000000000000AB02 /* TunaKit */,
+			);
+			productName = TunaBitwarden;
+			productReference = BA000000000000000000A131 /* TunaBitwarden.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BA000000000000000000C102 /* BitwardenExtensionTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA000000000000000000A023 /* Build configuration list for PBXNativeTarget "BitwardenExtensionTests" */;
+			buildPhases = (
+				BA000000000000000000F104 /* Sources */,
+				BA000000000000000000F105 /* Frameworks */,
+				BA000000000000000000F106 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA000000000000000000C104 /* PBXTargetDependency */,
+			);
+			name = BitwardenExtensionTests;
+			packageProductDependencies = (
+				BA000000000000000000AB03 /* TunaKit */,
+			);
+			productName = BitwardenExtensionTests;
+			productReference = BA000000000000000000A132 /* BitwardenExtensionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BA000000000000000000D101 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					BA000000000000000000C101 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = BA000000000000000000A003 /* Build configuration list for PBXProject "BitwardenExtension" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BA000000000000000000E101;
+			packageReferences = (
+				BA000000000000000000AB01 /* XCRemoteSwiftPackageReference "TunaKit" */,
+			);
+			productRefGroup = BA000000000000000000E103 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BA000000000000000000C101 /* BitwardenExtension */,
+				BA000000000000000000C102 /* BitwardenExtensionTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BA000000000000000000F103 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA000000000000000000F106 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BA000000000000000000F101 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA000000000000000000B101 /* BitwardenExtension.swift in Sources */,
+				BA000000000000000000B102 /* BitwardenSettings.swift in Sources */,
+				BA000000000000000000B103 /* BitwardenModels.swift in Sources */,
+				BA000000000000000000B104 /* BitwardenHTTP.swift in Sources */,
+				BA000000000000000000B105 /* BitwardenServeClient.swift in Sources */,
+				BA000000000000000000B106 /* BitwardenServeProcess.swift in Sources */,
+				BA000000000000000000B107 /* BitwardenCLI.swift in Sources */,
+				BA000000000000000000B108 /* BitwardenClipboard.swift in Sources */,
+				BA000000000000000000B109 /* BitwardenSearch.swift in Sources */,
+				BA000000000000000000B110 /* BitwardenVaultSupport.swift in Sources */,
+				BA000000000000000000B111 /* BitwardenVault.swift in Sources */,
+				BA000000000000000000B112 /* BitwardenItems.swift in Sources */,
+				BA000000000000000000B113 /* BitwardenCatalog.swift in Sources */,
+				BA000000000000000000B114 /* BitwardenActionsCatalog.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA000000000000000000F104 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA000000000000000000B121 /* BitwardenTestSupport.swift in Sources */,
+				BA000000000000000000B122 /* BitwardenExtensionTests.swift in Sources */,
+				BA000000000000000000B123 /* BitwardenModelTests.swift in Sources */,
+				BA000000000000000000B124 /* BitwardenServeTests.swift in Sources */,
+				BA000000000000000000B125 /* BitwardenVaultTests.swift in Sources */,
+				BA000000000000000000B126 /* BitwardenCatalogTests.swift in Sources */,
+				BA000000000000000000B127 /* BitwardenProviderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BA000000000000000000C104 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BitwardenExtension;
+			target = BA000000000000000000C101 /* BitwardenExtension */;
+			targetProxy = BA000000000000000000C103 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BA000000000000000000A001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = TunaBitwarden;
+			};
+			name = Debug;
+		};
+		BA000000000000000000A002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = TunaBitwarden;
+			};
+			name = Release;
+		};
+		BA000000000000000000A011 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DDB8SQMXS9;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brnbw.tuna.plugins.bitwarden;
+				PRODUCT_MODULE_NAME = TunaBitwarden;
+				PRODUCT_NAME = TunaBitwarden;
+				SKIP_INSTALL = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 6;
+			};
+			name = Debug;
+		};
+		BA000000000000000000A012 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DDB8SQMXS9;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brnbw.tuna.plugins.bitwarden;
+				PRODUCT_MODULE_NAME = TunaBitwarden;
+				PRODUCT_NAME = TunaBitwarden;
+				SKIP_INSTALL = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 6;
+			};
+			name = Release;
+		};
+		BA000000000000000000A021 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brnbw.BitwardenExtensionTests;
+				PRODUCT_MODULE_NAME = BitwardenExtensionTests;
+				PRODUCT_NAME = BitwardenExtensionTests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BA000000000000000000A022 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brnbw.BitwardenExtensionTests;
+				PRODUCT_MODULE_NAME = BitwardenExtensionTests;
+				PRODUCT_NAME = BitwardenExtensionTests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BA000000000000000000A003 /* Build configuration list for PBXProject "BitwardenExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA000000000000000000A001 /* Debug */,
+				BA000000000000000000A002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA000000000000000000A013 /* Build configuration list for PBXNativeTarget "BitwardenExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA000000000000000000A011 /* Debug */,
+				BA000000000000000000A012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA000000000000000000A023 /* Build configuration list for PBXNativeTarget "BitwardenExtensionTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA000000000000000000A021 /* Debug */,
+				BA000000000000000000A022 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BA000000000000000000AB01 /* XCRemoteSwiftPackageReference "TunaKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tunaformac/TunaKit";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.22.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BA000000000000000000AB02 /* TunaKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA000000000000000000AB01 /* XCRemoteSwiftPackageReference "TunaKit" */;
+			productName = TunaKit;
+		};
+		BA000000000000000000AB03 /* TunaKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA000000000000000000AB01 /* XCRemoteSwiftPackageReference "TunaKit" */;
+			productName = TunaKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = BA000000000000000000D101 /* Project object */;
+}
