@@ -19,7 +19,7 @@ final class BitwardenItemTests: XCTestCase {
     XCTAssertEqual(item.id, github.id)
     XCTAssertEqual(item.typeID, .bitwardenLogin)
     XCTAssertEqual(item.detail, "miira \u{00B7} com.github.android")
-    XCTAssertEqual(item.searchText, "GitHub miira com.github.android github.com Work")
+    XCTAssertEqual(item.searchKeys, ["GitHub", "miira", "com.github.android", "github.com", "Work"])
     XCTAssertFalse(item is TextValueProviding)
   }
 
@@ -130,6 +130,29 @@ final class BitwardenTreeTests: XCTestCase {
     XCTAssertEqual(children.last?.title, "Lock Vault")
   }
 
+  func testEntryItemsExposeSeparateSearchKeys() {
+    func entry(_ kind: BitwardenItemKind, name: String, username: String?, hosts: [String], identity: BitwardenIdentityFields? = nil) -> VaultEntry {
+      VaultEntry(
+        id: name, kind: kind, name: name, username: username, uriHosts: hosts, websiteHost: hosts.first, folderID: "f",
+        collectionIDs: [], organizationID: nil, isFavorite: false, requiresReprompt: false, hasTotp: false,
+        revisionDate: nil, identity: identity)
+    }
+    let login = BitwardenLoginItem(entry: entry(.login, name: "GitHub", username: "miira", hosts: ["github.com"]), folderName: "Work")
+    XCTAssertEqual(login.searchKeys, ["GitHub", "miira", "github.com", "Work"])
+    let note = BitwardenNoteItem(entry: entry(.secureNote, name: "Wifi", username: nil, hosts: []), folderName: "Home")
+    XCTAssertEqual(note.searchKeys, ["Wifi", "Home"])
+    let fields = BitwardenIdentityFields(fullName: "Mira Example", email: "me@example.org", username: nil, phone: nil, company: nil, address: nil)
+    let identity = BitwardenIdentityItem(entry: entry(.identity, name: "Me", username: "mira", hosts: [], identity: fields), folderName: nil)
+    XCTAssertEqual(identity.searchKeys, ["Me", "Mira Example", "me@example.org", "mira"])
+    XCTAssertEqual(BitwardenIdentityFieldItem(parentID: "p", label: "Email", value: "me@example.org").searchKeys, ["Email", "me@example.org"])
+  }
+
+  func testGeneratedValuesCarryTheConcealedPasteboardFlavor() {
+    let item = BitwardenGeneratedSecretItem(value: "s3cret", kind: .password)
+    XCTAssertEqual(item.pasteboardDataRepresentation?.typeRawValue, "org.nspasteboard.ConcealedType")
+    XCTAssertEqual(item.searchText, "")
+  }
+
   func testTypedTextReachesRootRows() {
     XCTAssertEqual(BitwardenTree.rootMatches(query: "lock", snapshot: .empty).map(\.title), ["Lock Vault"])
     XCTAssertEqual(
@@ -157,6 +180,44 @@ final class BitwardenTreeTests: XCTestCase {
     XCTAssertEqual(catalog.objects.count, 1)
     XCTAssertFalse(catalog.scansOnStartup)
   }
+
+  private func makeCatalog() -> BitwardenCatalog {
+    BitwardenCatalog(
+      definition: CatalogDefinition(
+        identifier: "bitwarden", name: "Bitwarden", enabledByDefault: true, presentation: .liveSearch, settings: []))
+  }
+
+  @MainActor func testSortOptionsKeepVaultOrderByDefault() {
+    let catalog = makeCatalog()
+    XCTAssertEqual(catalog.sortOptions.map(\.id), ["vault-order", "name", "recent", "favorites"])
+    XCTAssertEqual(catalog.defaultSortOptionID, "vault-order")
+  }
+
+  func testRecentAndFavoriteSortsUseEntryData() {
+    func login(_ name: String, revision: TimeInterval, favorite: Bool) -> BitwardenLoginItem {
+      BitwardenLoginItem(
+        entry: VaultEntry(
+          id: name, kind: .login, name: name, username: nil, uriHosts: [], websiteHost: nil, folderID: nil,
+          collectionIDs: [], organizationID: nil, isFavorite: favorite, requiresReprompt: false, hasTotp: false,
+          revisionDate: Date(timeIntervalSince1970: revision), identity: nil), folderName: nil)
+    }
+    let older = login("Alpha", revision: 1, favorite: false)
+    let newer = login("Zulu", revision: 2, favorite: true)
+    XCTAssertTrue(BitwardenSort.newerFirst(newer, older))
+    XCTAssertFalse(BitwardenSort.newerFirst(older, newer))
+    XCTAssertTrue(BitwardenSort.favoritesFirst(newer, older))
+    XCTAssertFalse(BitwardenSort.favoritesFirst(older, newer))
+    XCTAssertTrue(BitwardenSort.byName(older, newer))
+    XCTAssertFalse(BitwardenSort.vaultOrder(older, newer))
+    XCTAssertFalse(BitwardenSort.vaultOrder(newer, older))
+  }
+
+  @MainActor func testDiagnosticsReportTheVaultState() {
+    let metrics = makeCatalog().diagnosticsSnapshot().metrics
+    XCTAssertNotNil(metrics["Vault"])
+    XCTAssertNotNil(metrics["Items"])
+    XCTAssertNotNil(metrics["Last sync"])
+  }
 }
 
 @MainActor
@@ -164,8 +225,37 @@ final class BitwardenActionTests: XCTestCase {
   private let catalog = BitwardenActionsCatalog(
     definition: ActionCatalogDefinition(identifier: "bitwarden.actions", name: "Bitwarden Actions"))
 
-  private func action(_ id: String) throws -> PredicateAwareAction {
-    try XCTUnwrap(catalog.actions.first { $0.id == id } as? PredicateAwareAction)
+  private func action(_ id: String) throws -> CatalogAction & ActionPredicateProviding {
+    try XCTUnwrap(catalog.actions.first { $0.id == id } as? CatalogAction & ActionPredicateProviding)
+  }
+
+  func testCopyActionsRunHeadlessWhileResultActionsNeedTheInterface() {
+    let eligibility = Dictionary(uniqueKeysWithValues: catalog.actions.map { ($0.id, $0.headlessEligibility) })
+    for id in [
+      "copy-password", "copy-username", "copy-totp", "copy-url", "open-website", "open-in-bitwarden", "copy-note",
+      "copy-generated", "lock-vault-app", "sync-vault-app",
+    ] {
+      XCTAssertEqual(eligibility[id], .guaranteed, id)
+    }
+    for id in ["run-command", "regenerate", "search-bitwarden"] {
+      XCTAssertEqual(eligibility[id], .requiresInterface, id)
+    }
+  }
+
+  func testOpenInBitwardenIsUnavailableWithoutTheApp() {
+    let missing = BitwardenActions.all(appInstalled: { false }).first { $0.id == "open-in-bitwarden" }
+    XCTAssertEqual((missing as? ActionAvailabilityProviding)?.isAvailable, false)
+    let present = BitwardenActions.all(appInstalled: { true }).first { $0.id == "open-in-bitwarden" }
+    XCTAssertEqual((present as? ActionAvailabilityProviding)?.isAvailable, true)
+  }
+
+  func testCancelledTouchIDFinishesQuietly() {
+    guard case .cancelled = BitwardenActions.result(for: BitwardenVaultError.unlockCancelled) else {
+      return XCTFail("cancelled Touch ID should finish quietly")
+    }
+    guard case .failure = BitwardenActions.result(for: BitwardenVaultError.locked) else {
+      return XCTFail("a locked vault is a visible failure")
+    }
   }
 
   private func login(

@@ -22,6 +22,21 @@ private final class BitwardenTextSearchAction: CatalogAction, ActionPredicatePro
   }
 }
 
+private final class BitwardenAppLinkedAction: CatalogAction, ActionPredicateProviding, ActionAvailabilityProviding,
+  @unchecked Sendable
+{
+  var subjectPredicate: CatalogActionSubjectPredicate?
+  var targetPredicate: CatalogActionTargetPredicate?
+  private let appInstalled: @Sendable () -> Bool
+
+  var isAvailable: Bool { appInstalled() }
+
+  init(id: String, title: String, appInstalled: @escaping @Sendable () -> Bool, callback: @escaping ActionCallback) {
+    self.appInstalled = appInstalled
+    super.init(id: id, title: title, headlessEligibility: .guaranteed, callback: callback)
+  }
+}
+
 public final class BitwardenActionsCatalog: NSObject, ActionCatalog {
   public let identifier: String
   public let name: String
@@ -36,14 +51,18 @@ public final class BitwardenActionsCatalog: NSObject, ActionCatalog {
 }
 
 enum BitwardenActions {
-  static func all() -> [CatalogAction] {
+  static let bitwardenAppInstalled: @Sendable () -> Bool = {
+    NSWorkspace.shared.urlForApplication(withBundleIdentifier: BitwardenIdentifiers.bundleIdentifier) != nil
+  }
+
+  static func all(appInstalled: @escaping @Sendable () -> Bool = bitwardenAppInstalled) -> [CatalogAction] {
     [
       secretCopy(id: BitwardenIdentifiers.copyPasswordAction, title: "Copy Password", symbol: "key.fill", field: .password),
       plainCopy(id: BitwardenIdentifiers.copyUsernameAction, title: "Copy Username", symbol: "person") { ($0 as? BitwardenLoginItem)?.entry.username },
       secretCopy(id: BitwardenIdentifiers.copyTOTPAction, title: "Copy TOTP", symbol: "clock", field: .totp) { $0.entry.hasTotp },
       plainCopy(id: BitwardenIdentifiers.copyURLAction, title: "Copy URL", symbol: "link") { websiteURL(for: $0)?.absoluteString },
       openWebsite(),
-      openInBitwarden(),
+      openInBitwarden(appInstalled: appInstalled),
       secretCopy(id: BitwardenIdentifiers.copyNoteAction, title: "Copy Note", symbol: "note.text", field: .notes, subjectType: .bitwardenNote),
       runCommand(),
       copyGenerated(),
@@ -74,7 +93,7 @@ enum BitwardenActions {
     id: String, title: String, symbol: String, field: BitwardenSecretField, subjectType: TypeID = .bitwardenLogin,
     extra: @escaping (BitwardenEntryItem) -> Bool = { _ in true }
   ) -> CatalogAction {
-    let action = PredicateAwareAction(id: id, title: title) { subject, _ in
+    let action = PredicateAwareAction(id: id, title: title, headlessEligibility: .guaranteed) { subject, _ in
       guard let item = subject as? BitwardenEntryItem, item.typeID == subjectType else {
         return .failure("Select a Bitwarden item")
       }
@@ -95,7 +114,7 @@ enum BitwardenActions {
   private static func plainCopy(
     id: String, title: String, symbol: String, value: @escaping (CatalogItem) -> String?
   ) -> CatalogAction {
-    let action = PredicateAwareAction(id: id, title: title) { subject, _ in
+    let action = PredicateAwareAction(id: id, title: title, headlessEligibility: .guaranteed) { subject, _ in
       guard let text = value(subject), !text.isEmpty else { return .failure("Nothing to copy") }
       return BitwardenClipboard.shared.copyText(text) ? .success : .failure("Could not copy")
     }
@@ -109,7 +128,9 @@ enum BitwardenActions {
   }
 
   private static func openWebsite() -> CatalogAction {
-    let action = PredicateAwareAction(id: BitwardenIdentifiers.openWebsiteAction, title: "Open Website") { subject, _ in
+    let action = PredicateAwareAction(
+      id: BitwardenIdentifiers.openWebsiteAction, title: "Open Website", headlessEligibility: .guaranteed
+    ) { subject, _ in
       guard let url = websiteURL(for: subject) else { return .failure("This login has no website") }
       return NSWorkspace.shared.open(url) ? .success : .failure("Could not open \(url.absoluteString)")
     }
@@ -119,8 +140,10 @@ enum BitwardenActions {
     return action
   }
 
-  private static func openInBitwarden() -> CatalogAction {
-    let action = PredicateAwareAction(id: BitwardenIdentifiers.openInBitwardenAction, title: "Open in Bitwarden") { _, _ in
+  private static func openInBitwarden(appInstalled: @escaping @Sendable () -> Bool) -> CatalogAction {
+    let action = BitwardenAppLinkedAction(
+      id: BitwardenIdentifiers.openInBitwardenAction, title: "Open in Bitwarden", appInstalled: appInstalled
+    ) { _, _ in
       guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: BitwardenIdentifiers.bundleIdentifier) else {
         return .failure("Bitwarden.app is not installed")
       }
@@ -147,7 +170,9 @@ enum BitwardenActions {
   }
 
   private static func copyGenerated() -> CatalogAction {
-    let action = PredicateAwareAction(id: BitwardenIdentifiers.copyGeneratedAction, title: "Copy") { subject, _ in
+    let action = PredicateAwareAction(
+      id: BitwardenIdentifiers.copyGeneratedAction, title: "Copy", headlessEligibility: .guaranteed
+    ) { subject, _ in
       guard let item = subject as? BitwardenGeneratedSecretItem else { return .failure("Nothing generated") }
       let seconds = await BitwardenVault.shared.clipboardClearSeconds()
       return BitwardenClipboard.shared.copySecret(item.textValue, clearAfter: seconds) ? .success : .failure("Could not copy")
@@ -172,7 +197,7 @@ enum BitwardenActions {
   }
 
   private static func appCommand(id: String, title: String, symbol: String, command: BitwardenCommand) -> CatalogAction {
-    let action = PredicateAwareAction(id: id, title: title) { _, _ in
+    let action = PredicateAwareAction(id: id, title: title, headlessEligibility: .guaranteed) { _, _ in
       await run(command)
     }
     action.systemSymbolName = symbol
@@ -195,6 +220,7 @@ enum BitwardenActions {
       let copied = await BitwardenClipboard.shared.copySecret(value, clearAfter: seconds)
       return copied ? .success : .failure("Could not copy")
     } catch {
+      if case BitwardenVaultError.unlockCancelled = error { return .cancelled }
       AppLog.error(.plugins, "[Bitwarden] copy \(field.rawValue) failed: \(error.localizedDescription)")
       return .failure(error.localizedDescription)
     }
@@ -227,8 +253,13 @@ enum BitwardenActions {
       let value = try await BitwardenVault.shared.generate(kind.options)
       return .results([BitwardenGeneratedSecretItem(value: value, kind: kind)])
     } catch {
-      return .failure(error.localizedDescription)
+      return result(for: error)
     }
+  }
+
+  static func result(for error: Error) -> ActionResult {
+    if case BitwardenVaultError.unlockCancelled = error { return .cancelled }
+    return .failure(error.localizedDescription)
   }
 
   private static func refreshRoot() async -> ActionResult {

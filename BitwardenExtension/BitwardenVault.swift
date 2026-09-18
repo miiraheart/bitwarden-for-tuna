@@ -1,5 +1,6 @@
 import Foundation
 import TunaKit
+import os
 
 actor BitwardenVault {
   static let shared = BitwardenVault(
@@ -28,6 +29,7 @@ actor BitwardenVault {
   private var syncTask: Task<Void, Never>?
   private var systemEvents: BitwardenSystemEvents?
   private var generation: UInt64 = 0
+  nonisolated let diagnostics = OSAllocatedUnfairLock(initialState: BitwardenVaultDiagnostics())
 
   init(
     settings: @escaping @Sendable () throws -> BitwardenSettings.Values, cli: BitwardenCLIProviding,
@@ -94,6 +96,7 @@ actor BitwardenVault {
       let loaded = try await load(client)
       guard generation == epoch else { throw BitwardenVaultError.locked }
       cache = loaded
+      publishDiagnostics(state: state, snapshot: loaded)
       setState(.unlocked)
     } catch {
       throw map(error)
@@ -242,6 +245,7 @@ actor BitwardenVault {
       let loaded = try await load(client)
       guard generation == epoch else { return }
       cache = loaded
+      publishDiagnostics(state: state, snapshot: loaded)
     } catch {
       _ = map(error)
     }
@@ -284,6 +288,7 @@ actor BitwardenVault {
   func setState(_ newState: BitwardenVaultState) {
     guard state != newState else { return }
     state = newState
+    publishDiagnostics(state: newState, snapshot: newState == .unlocked ? cache : nil)
     observer?(newState)
   }
 }

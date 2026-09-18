@@ -1,6 +1,7 @@
 import AppKit
 import Foundation
 import LocalAuthentication
+import TunaKit
 
 enum BitwardenVaultState: Equatable, Sendable {
   case idle
@@ -13,6 +14,60 @@ enum BitwardenVaultState: Equatable, Sendable {
   case locked
   case unlockFailed(String)
   case unlocked
+}
+
+extension BitwardenVaultState {
+  var diagnosticLabel: String {
+    switch self {
+    case .idle: return "idle"
+    case .working: return "working"
+    case .unconfigured(let fields): return "not configured (\(fields.joined(separator: ", ")))"
+    case .keychainDenied: return "keychain access denied"
+    case .cliMissing: return "Bitwarden CLI not found"
+    case .loginFailed(let message): return "login failed: \(message)"
+    case .serveFailed(let message): return "local service failed: \(message)"
+    case .locked: return "locked"
+    case .unlockFailed(let message): return "unlock failed: \(message)"
+    case .unlocked: return "unlocked"
+    }
+  }
+}
+
+struct BitwardenVaultDiagnostics: Sendable, Equatable {
+  var state = "idle"
+  var items = 0
+  var folders = 0
+  var collections = 0
+  var lastSync: Date?
+
+  init(state: String = "idle", items: Int = 0, folders: Int = 0, collections: Int = 0, lastSync: Date? = nil) {
+    self.state = state
+    self.items = items
+    self.folders = folders
+    self.collections = collections
+    self.lastSync = lastSync
+  }
+
+  var catalogSnapshot: CatalogDiagnosticsSnapshot {
+    CatalogDiagnosticsSnapshot(metrics: [
+      "Vault": CatalogDiagnosticMetric(value: .text(state)),
+      "Items": CatalogDiagnosticMetric(value: .integer(items), notes: "logins, secure notes and identities in memory"),
+      "Folders": CatalogDiagnosticMetric(value: .integer(folders)),
+      "Collections": CatalogDiagnosticMetric(value: .integer(collections)),
+      "Last sync": CatalogDiagnosticMetric(
+        value: .text(lastSync.map { $0.formatted(date: .abbreviated, time: .shortened) } ?? "never")),
+    ])
+  }
+}
+
+extension BitwardenVault {
+  nonisolated func publishDiagnostics(state: BitwardenVaultState, snapshot: VaultSnapshot?) {
+    diagnostics.withLock {
+      $0 = BitwardenVaultDiagnostics(
+        state: state.diagnosticLabel, items: snapshot?.entries.count ?? 0, folders: snapshot?.folders.count ?? 0,
+        collections: snapshot?.collections.count ?? 0, lastSync: snapshot?.lastSync)
+    }
+  }
 }
 
 enum BitwardenVaultError: LocalizedError, Equatable {

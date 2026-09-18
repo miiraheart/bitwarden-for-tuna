@@ -49,6 +49,22 @@ final class BitwardenVaultTests: XCTestCase {
     XCTAssertEqual(state, .unlocked)
   }
 
+  func testDiagnosticsFollowTheVault() async throws {
+    let serve = FakeServe()
+    VaultFixtures.primeUnlockedVault(serve.transport)
+    let vault = VaultFixtures.makeVault(serve: serve, gate: FakeGate())
+    XCTAssertEqual(vault.diagnostics.withLock { $0.state }, "idle")
+    let snapshot = try await vault.snapshot()
+    XCTAssertEqual(
+      vault.diagnostics.withLock { $0 },
+      BitwardenVaultDiagnostics(
+        state: "unlocked", items: snapshot.entries.count, folders: snapshot.folders.count,
+        collections: snapshot.collections.count, lastSync: snapshot.lastSync))
+    await vault.lock()
+    XCTAssertEqual(vault.diagnostics.withLock { $0.state }, "locked")
+    XCTAssertEqual(vault.diagnostics.withLock { $0.items }, 0)
+  }
+
   func testSecondSnapshotUsesCacheWithoutPrompting() async throws {
     let serve = FakeServe()
     VaultFixtures.primeUnlockedVault(serve.transport)

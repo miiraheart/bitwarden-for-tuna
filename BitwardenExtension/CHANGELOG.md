@@ -7,6 +7,9 @@
   Logins, Secure Notes, Identities, Folders and Collections. Enter on a login copies its password;
   username, TOTP, URL, Open Website and Open in Bitwarden are one action away.
 - Generate Password and Generate Passphrase entries.
+- Copy actions are headless-safe for hotkeys, Combo Mode and the tuna CLI; a cancelled Touch ID
+  ends the command quietly. Sort choices (Vault order, Name, Recently changed, Favorites first),
+  keyed matching while browsing groups, and vault diagnostics in Settings → Sources.
 - Touch ID (or Mac password) unlock with the master password kept in the macOS Keychain; the vault
   locks after idle time, on sleep, on screen lock and with Lock Vault. Copied secrets leave the
   clipboard after 30 seconds. Items never enter global search.

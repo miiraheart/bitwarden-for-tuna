@@ -13,7 +13,8 @@ Search for **Bitwarden** in Tuna and open it:
   ahead of identities and notes when matches tie. Start with `l:`, `n:` or `i:` (or `login:`,
   `note:`, `identity:`) to search one kind only; `l:` alone lists every login. Enter on
   a login copies its password to the clipboard. The actions menu offers Copy Username, Copy TOTP,
-  Copy URL, Open Website and Open in Bitwarden.
+  Copy URL, Open Website and Open in Bitwarden (the last one only when the desktop app is
+  installed).
 - Or browse: Favorites, Logins, Secure Notes, Identities, Folders, Collections. Identities open into
   their fields (full name, email, username, phone, company, address); Enter on a field copies it.
 - **Generate Password** (20 characters, letters, numbers, symbols) and **Generate Passphrase** (4
@@ -23,6 +24,14 @@ Search for **Bitwarden** in Tuna and open it:
   for what you typed.
 - Combo Mode: bind a key to the **Search Bitwarden** action with the text `l:`, `n:` or `i:` to jump
   straight into logins, notes or identities.
+- The copy actions run without showing Tuna when a global hotkey, a Combo Mode key or
+  `tuna run --silent` triggers them. Touch ID still asks when the vault is locked; cancelling it
+  ends the command quietly.
+- Tuna's sort control offers **Vault order** (default), **Name**, **Recently changed** and
+  **Favorites first** inside the entry and its groups. While browsing a group, typing matches the
+  name, username, website host and folder as separate keys.
+- Generated values keep the concealed clipboard marker even when Tuna's own Copy or Paste action
+  handles them.
 
 Items flagged in Bitwarden with *master password re-prompt* only offer Copy Username, Copy URL, Open
 Website and Open in Bitwarden. Tuna cannot ask for the master password inline, so the flag is
@@ -96,7 +105,10 @@ access control, is a possible follow-up.
 - **Login failed**: check the client ID and secret; regenerate the API key in the web vault if needed.
 - **Unlock failed**: the master password in Settings is wrong.
 - **Keychain access denied**: allow Tuna when macOS asks, or open Keychain Access and grant it.
-- Logs: `./scripts/tuna-extension logs --last 20m` from this repository; nothing about items is logged.
+- Tuna Settings → Sources → Bitwarden shows the vault state, item, folder and collection counts
+  and the last sync.
+- Logs: Tuna Settings → Runtime Logs (`open "tuna://settings/runtime-logs"`). Failures are
+  prefixed `[Bitwarden]`; nothing about items is logged.
 
 ## Development
 

@@ -8,7 +8,7 @@ protocol BitwardenPasteboard: AnyObject {
 }
 
 final class SystemPasteboard: BitwardenPasteboard {
-  private static let concealedType = NSPasteboard.PasteboardType("org.nspasteboard.ConcealedType")
+  static let concealedType = NSPasteboard.PasteboardType("org.nspasteboard.ConcealedType")
 
   var changeCount: Int { NSPasteboard.general.changeCount }
 

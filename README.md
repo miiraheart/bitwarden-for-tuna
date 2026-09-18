@@ -14,7 +14,7 @@ Requires Tuna 0.96 or later (TunaKit 1.22.0), macOS 15 and the Bitwarden CLI
 
 | Catalog | ID | What it does |
 | --- | --- | --- |
-| Bitwarden | `bitwarden` | Live-search root. Type to search logins, secure notes and identities by name, username, identity email, website host and folder name. The entry's own rows match too (`lock` reaches Lock Vault, `gen` the generators); logins rank ahead of identities and notes on ties; `l:`, `n:` or `i:` restrict the search to one kind (`l:` alone lists every login). Press → to browse **Favorites**, **Logins**, **Secure Notes**, **Identities**, **Folders** and **Collections**, then **Generate Password**, **Generate Passphrase**, **Sync Vault** and **Lock Vault**. Identities open into their fields and Return on a field copies it. Vault items never enter global search and are never indexed on disk. |
+| Bitwarden | `bitwarden` | Live-search root. Type to search logins, secure notes and identities by name, username, identity email, website host and folder name. The entry's own rows match too (`lock` reaches Lock Vault, `gen` the generators); logins rank ahead of identities and notes on ties; `l:`, `n:` or `i:` restrict the search to one kind (`l:` alone lists every login). Press → to browse **Favorites**, **Logins**, **Secure Notes**, **Identities**, **Folders** and **Collections**, then **Generate Password**, **Generate Passphrase**, **Sync Vault** and **Lock Vault**. Identities open into their fields and Return on a field copies it. While browsing a group, typing matches name, username, website host and folder as separate keys, and Tuna's sort control offers **Vault order** (default), **Name**, **Recently changed** and **Favorites first**. Vault items never enter global search and are never indexed on disk. |
 
 **Actions (`bitwarden.actions`)**
 
@@ -25,15 +25,20 @@ Requires Tuna 0.96 or later (TunaKit 1.22.0), macOS 15 and the Bitwarden CLI
 | Copy TOTP | a login with a TOTP seed | Copies the current code (the CLI needs Bitwarden Premium). |
 | Copy URL, Open Website | a login with a website | Copies the website address, or opens it in the default browser. |
 | Copy Note | a secure note | Default action. Fetches and copies the note body, concealed and cleared like a password. |
-| Open in Bitwarden | a login, note or identity | Opens the Bitwarden desktop app. |
+| Open in Bitwarden | a login, note or identity | Opens the Bitwarden desktop app; hidden when the app is not installed. |
 | Run | Sync Vault, Lock Vault, Unlock Vault, Generate Password, Generate Passphrase, Try Again | Default action on the entry's command rows. |
-| Copy, Regenerate | a generated password or passphrase | Copies the value (concealed, cleared after 30 seconds) or makes another. |
+| Copy, Regenerate | a generated password or passphrase | Copies the value (concealed, cleared after 30 seconds) or makes another. Tuna's own Copy and Paste actions on a generated value keep the concealed marker too. |
 | Lock Vault, Sync Vault | the Bitwarden app entry in Tuna | Offered on the app through app enrichment; browsing the app entry opens the vault. |
 | Search Bitwarden | text | Opens the vault already searching the text. With `l:`, `n:` or `i:` it searches one kind, which makes a good Combo Mode target. |
 
 Items flagged in Bitwarden with *master password re-prompt* only offer Copy Username, Copy URL, Open
 Website and Open in Bitwarden. Tuna cannot ask for the master password inline, so the secret copies
 are hidden.
+
+The copy actions are headless-safe: a global hotkey, a Combo Mode key or `tuna run --silent` runs
+them without showing Tuna. Touch ID still asks when the vault is locked, and cancelling it ends the
+command quietly. Settings → Sources → Bitwarden reports the vault state, item, folder and
+collection counts and the last sync.
 
 ## Setup
 
@@ -107,7 +112,8 @@ access control, is a possible follow-up.
 - **Keychain access denied**: allow Tuna when macOS asks, or open Keychain Access and grant it.
 - **A copied password seems missing**: it was pasted from the clipboard but hidden from clipboard
   history on purpose, or the clear delay already ran; raise **Clear clipboard after seconds**.
-- Logs: `make logs`; nothing about items is logged.
+- Logs: Tuna Settings → Runtime Logs (`open "tuna://settings/runtime-logs"`). Failures are
+  prefixed `[Bitwarden]`; nothing about items is logged.
 
 ## Development
 
@@ -115,7 +121,7 @@ access control, is a possible follow-up.
 make build            # Debug build
 make test             # unit tests (no code signing, fakes for the CLI, the service and the Keychain)
 make install-restart  # install into ~/Library/Application Support/Tuna/ExtensionsDev and restart Tuna
-make logs             # last 20 minutes of Tuna extension logs
+make logs             # unified log; Tuna 0.98 and later keep extension logs in Settings → Runtime Logs
 make package          # Release build + dist/store/*.tunaextension
 ```
 

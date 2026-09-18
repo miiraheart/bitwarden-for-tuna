@@ -13,8 +13,8 @@ class BitwardenEntryItem: CatalogEntity, @unchecked Sendable {
     self.typeID = typeID
   }
 
-  override var searchText: String {
-    ([entry.name, entry.username] + entry.uriHosts + [folderName]).compactMap { $0 }.joined(separator: " ")
+  override var searchKeys: [String] {
+    ([entry.name, entry.username] + entry.uriHosts + [folderName]).compactMap { $0 }
   }
 
   override func placeholderPreview(maxDimension: CGFloat) -> CatalogItemPreview {
@@ -42,7 +42,7 @@ final class BitwardenNoteItem: BitwardenEntryItem, @unchecked Sendable {
   }
 
   override var detail: String? { folderName }
-  override var searchText: String { [entry.name, folderName].compactMap { $0 }.joined(separator: " ") }
+  override var searchKeys: [String] { [entry.name, folderName].compactMap { $0 } }
 
   override func preview(maxDimension: CGFloat) -> CatalogItemPreview {
     .systemSymbol("note.text", tintColor: .systemYellow)
@@ -56,9 +56,8 @@ final class BitwardenIdentityItem: BitwardenEntryItem, CatalogHierarchyNode, @un
 
   override var detail: String? { entry.identity?.email ?? entry.username }
 
-  override var searchText: String {
-    [entry.name, entry.identity?.fullName, entry.identity?.email, entry.username, folderName]
-      .compactMap { $0 }.joined(separator: " ")
+  override var searchKeys: [String] {
+    [entry.name, entry.identity?.fullName, entry.identity?.email, entry.username, folderName].compactMap { $0 }
   }
 
   func hierarchyChildren() -> [CatalogItem] {
@@ -82,7 +81,7 @@ final class BitwardenIdentityFieldItem: CatalogEntity, TextValueProviding, @unch
   }
 
   override var detail: String? { textValue }
-  override var searchText: String { "\(title) \(textValue)" }
+  override var searchKeys: [String] { [title, textValue] }
 
   override func preview(maxDimension: CGFloat) -> CatalogItemPreview {
     .systemSymbol("textformat", tintColor: .secondaryLabelColor)
@@ -104,7 +103,7 @@ enum BitwardenGeneratedKind: Sendable {
   var label: String { self == .password ? "Generated password" : "Generated passphrase" }
 }
 
-final class BitwardenGeneratedSecretItem: CatalogEntity, TextValueProviding, @unchecked Sendable {
+final class BitwardenGeneratedSecretItem: CatalogEntity, TextValueProviding, PasteboardDataProviding, @unchecked Sendable {
   let textValue: String
   let kind: BitwardenGeneratedKind
 
@@ -117,6 +116,10 @@ final class BitwardenGeneratedSecretItem: CatalogEntity, TextValueProviding, @un
 
   override var detail: String? { "\(kind.label), Enter copies it" }
   override var searchText: String { "" }
+
+  var pasteboardDataRepresentation: PasteboardDataRepresentation? {
+    PasteboardDataRepresentation(typeRawValue: SystemPasteboard.concealedType.rawValue, data: Data())
+  }
 
   override func preview(maxDimension: CGFloat) -> CatalogItemPreview {
     .systemSymbol("key.horizontal", tintColor: .systemGreen)
