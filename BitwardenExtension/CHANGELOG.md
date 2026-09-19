@@ -7,6 +7,8 @@
   Logins, Secure Notes, Identities, Folders and Collections. Enter on a login copies its password;
   username, TOTP, URL, Open Website and Open in Bitwarden are one action away.
 - Generate Password and Generate Passphrase entries.
+- Logins for the site open in the frontmost browser come first when the entry opens (any browser,
+  read through macOS Accessibility at that moment only).
 - Copy actions are headless-safe for hotkeys, Combo Mode and the tuna CLI; a cancelled Touch ID
   ends the command quietly. Sort choices (Vault order, Name, Recently changed, Favorites first),
   keyed matching while browsing groups, and vault diagnostics in Settings → Sources.

@@ -153,6 +153,28 @@ final class BitwardenTreeTests: XCTestCase {
     XCTAssertEqual(item.searchText, "")
   }
 
+  func testCurrentSiteLoginsLeadTheRoot() {
+    func login(_ name: String, hosts: [String]) -> VaultEntry {
+      VaultEntry(
+        id: name, kind: .login, name: name, username: "me", uriHosts: hosts, websiteHost: hosts.first, folderID: nil,
+        collectionIDs: [], organizationID: nil, isFavorite: false, requiresReprompt: false, hasTotp: false,
+        revisionDate: nil, identity: nil)
+    }
+    let entries = [
+      login("Shop app", hosts: ["com.shop.android"]), login("Mail", hosts: ["mail.example.org"]),
+      login("Shop", hosts: ["www.shop.example"]),
+    ]
+    let snapshot = VaultSnapshot(entries: entries, folders: [], collections: [], organizations: [], lastSync: nil)
+    XCTAssertEqual(BitwardenSiteMatch.logins(for: "shop.example", in: entries).map(\.name), ["Shop"])
+    XCTAssertEqual(BitwardenSiteMatch.logins(for: "calendar.example.org", in: entries).map(\.name), ["Mail"])
+    XCTAssertEqual(BitwardenSiteMatch.host(from: "https://www.Shop.example/login?x=1"), "shop.example")
+    XCTAssertNil(BitwardenSiteMatch.host(from: "about:blank"))
+    let rows = BitwardenTree.rootChildren(snapshot: snapshot, siteHost: "shop.example")
+    XCTAssertEqual(rows.prefix(2).map(\.title), ["Shop", "Favorites"])
+    XCTAssertEqual(BitwardenTree.rootChildren(snapshot: snapshot, siteHost: nil).first?.title, "Favorites")
+    XCTAssertEqual(BitwardenTree.rootChildren(snapshot: snapshot, siteHost: "other.test").first?.title, "Favorites")
+  }
+
   func testTypedTextReachesRootRows() {
     XCTAssertEqual(BitwardenTree.rootMatches(query: "lock", snapshot: .empty).map(\.title), ["Lock Vault"])
     XCTAssertEqual(

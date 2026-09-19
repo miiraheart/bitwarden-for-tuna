@@ -14,7 +14,7 @@ Requires Tuna 0.96 or later (TunaKit 1.22.0), macOS 15 and the Bitwarden CLI
 
 | Catalog | ID | What it does |
 | --- | --- | --- |
-| Bitwarden | `bitwarden` | Live-search root. Type to search logins, secure notes and identities by name, username, identity email, website host and folder name. The entry's own rows match too (`lock` reaches Lock Vault, `gen` the generators); logins rank ahead of identities and notes on ties; `l:`, `n:` or `i:` restrict the search to one kind (`l:` alone lists every login). Press → to browse **Favorites**, **Logins**, **Secure Notes**, **Identities**, **Folders** and **Collections**, then **Generate Password**, **Generate Passphrase**, **Sync Vault** and **Lock Vault**. Identities open into their fields and Return on a field copies it. While browsing a group, typing matches name, username, website host and folder as separate keys, and Tuna's sort control offers **Vault order** (default), **Name**, **Recently changed** and **Favorites first**. Vault items never enter global search and are never indexed on disk. |
+| Bitwarden | `bitwarden` | Live-search root. Open it while a browser tab is in front and the logins for that site come first (any browser; the site is read from the frontmost window's web view through macOS Accessibility at that moment only, matched on the base domain, never stored). Type to search logins, secure notes and identities by name, username, identity email, website host and folder name. The entry's own rows match too (`lock` reaches Lock Vault, `gen` the generators); logins rank ahead of identities and notes on ties; `l:`, `n:` or `i:` restrict the search to one kind (`l:` alone lists every login). Press → to browse **Favorites**, **Logins**, **Secure Notes**, **Identities**, **Folders** and **Collections**, then **Generate Password**, **Generate Passphrase**, **Sync Vault** and **Lock Vault**. Identities open into their fields and Return on a field copies it. While browsing a group, typing matches name, username, website host and folder as separate keys, and Tuna's sort control offers **Vault order** (default), **Name**, **Recently changed** and **Favorites first**. Vault items never enter global search and are never indexed on disk. |
 
 **Actions (`bitwarden.actions`)**
 
@@ -92,6 +92,8 @@ access control, is a possible follow-up.
   `bw` login in your terminal. Its local service listens on a Unix socket in your temporary
   directory (`tuna-bitwarden/bw.sock`), readable only by your user.
 - Nothing about your items is logged.
+- The current site is read only when you open the Bitwarden entry, from the frontmost window through
+  macOS Accessibility (Tuna already holds that permission); the address never leaves memory.
 
 ## Limitations
 

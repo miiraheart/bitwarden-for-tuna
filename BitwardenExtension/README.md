@@ -15,6 +15,10 @@ Search for **Bitwarden** in Tuna and open it:
   a login copies its password to the clipboard. The actions menu offers Copy Username, Copy TOTP,
   Copy URL, Open Website and Open in Bitwarden (the last one only when the desktop app is
   installed).
+- Open Bitwarden while a browser tab is in front and the logins for that site come first, so Enter
+  copies the right password at once (username and TOTP are in the actions menu). Any browser works:
+  the site is read from the frontmost window's web view through macOS Accessibility at that moment
+  only, matched on the site's base domain, and never stored.
 - Or browse: Favorites, Logins, Secure Notes, Identities, Folders, Collections. Identities open into
   their fields (full name, email, username, phone, company, address); Enter on a field copies it.
 - **Generate Password** (20 characters, letters, numbers, symbols) and **Generate Passphrase** (4
@@ -88,6 +92,8 @@ access control, is a possible follow-up.
   so it never interferes with a `bw` login in your terminal. Its local service listens on a Unix
   socket in your temporary directory (`tuna-bitwarden/bw.sock`), readable only by your user.
 - Nothing about your items is logged.
+- The current site is read only when you open the Bitwarden entry, from the frontmost window through
+  macOS Accessibility (Tuna already holds that permission); the address never leaves memory.
 
 ## Limitations
 

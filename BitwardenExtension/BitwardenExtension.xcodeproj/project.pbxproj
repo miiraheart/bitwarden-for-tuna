@@ -16,6 +16,7 @@
 		BA000000000000000000B107 /* BitwardenCLI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A107 /* BitwardenCLI.swift */; };
 		BA000000000000000000B108 /* BitwardenClipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A108 /* BitwardenClipboard.swift */; };
 		BA000000000000000000B109 /* BitwardenSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A109 /* BitwardenSearch.swift */; };
+		BA000000000000000000B115 /* BitwardenSiteContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A115 /* BitwardenSiteContext.swift */; };
 		BA000000000000000000B110 /* BitwardenVaultSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A110 /* BitwardenVaultSupport.swift */; };
 		BA000000000000000000B111 /* BitwardenVault.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A111 /* BitwardenVault.swift */; };
 		BA000000000000000000B112 /* BitwardenItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA000000000000000000A112 /* BitwardenItems.swift */; };
@@ -52,6 +53,7 @@
 		BA000000000000000000A107 /* BitwardenCLI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenCLI.swift; sourceTree = "<group>"; };
 		BA000000000000000000A108 /* BitwardenClipboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenClipboard.swift; sourceTree = "<group>"; };
 		BA000000000000000000A109 /* BitwardenSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenSearch.swift; sourceTree = "<group>"; };
+		BA000000000000000000A115 /* BitwardenSiteContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenSiteContext.swift; sourceTree = "<group>"; };
 		BA000000000000000000A110 /* BitwardenVaultSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenVaultSupport.swift; sourceTree = "<group>"; };
 		BA000000000000000000A111 /* BitwardenVault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenVault.swift; sourceTree = "<group>"; };
 		BA000000000000000000A112 /* BitwardenItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitwardenItems.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				BA000000000000000000A107 /* BitwardenCLI.swift */,
 				BA000000000000000000A108 /* BitwardenClipboard.swift */,
 				BA000000000000000000A109 /* BitwardenSearch.swift */,
+				BA000000000000000000A115 /* BitwardenSiteContext.swift */,
 				BA000000000000000000A110 /* BitwardenVaultSupport.swift */,
 				BA000000000000000000A111 /* BitwardenVault.swift */,
 				BA000000000000000000A112 /* BitwardenItems.swift */,
@@ -263,6 +266,7 @@
 				BA000000000000000000B107 /* BitwardenCLI.swift in Sources */,
 				BA000000000000000000B108 /* BitwardenClipboard.swift in Sources */,
 				BA000000000000000000B109 /* BitwardenSearch.swift in Sources */,
+				BA000000000000000000B115 /* BitwardenSiteContext.swift in Sources */,
 				BA000000000000000000B110 /* BitwardenVaultSupport.swift in Sources */,
 				BA000000000000000000B111 /* BitwardenVault.swift in Sources */,
 				BA000000000000000000B112 /* BitwardenItems.swift in Sources */,

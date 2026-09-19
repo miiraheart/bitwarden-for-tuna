@@ -117,7 +117,8 @@ enum BitwardenTree {
 
   static func rootChildren() async -> [CatalogItem] {
     do {
-      return rootChildren(snapshot: try await BitwardenVault.shared.snapshot())
+      let snapshot = try await BitwardenVault.shared.snapshot()
+      return rootChildren(snapshot: snapshot, siteHost: await MainActor.run { BitwardenSiteContext.currentHost() })
     } catch {
       return rows(for: error)
     }
@@ -127,7 +128,9 @@ enum BitwardenTree {
     let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
     do {
       let snapshot = try await BitwardenVault.shared.snapshot()
-      guard !trimmed.isEmpty else { return rootChildren(snapshot: snapshot) }
+      guard !trimmed.isEmpty else {
+        return rootChildren(snapshot: snapshot, siteHost: await MainActor.run { BitwardenSiteContext.currentHost() })
+      }
       let rootRows = rootMatches(query: trimmed, snapshot: snapshot)
       let matches = BitwardenSearch.rank(snapshot.entries, query: trimmed, snapshot: snapshot)
       guard !rootRows.isEmpty || !matches.isEmpty else {
@@ -149,8 +152,13 @@ enum BitwardenTree {
     }
   }
 
-  static func rootChildren(snapshot: VaultSnapshot) -> [CatalogItem] {
+  static func rootChildren(snapshot: VaultSnapshot, siteHost: String? = nil) -> [CatalogItem] {
     var rows: [CatalogItem] = []
+    if let siteHost {
+      rows.append(
+        contentsOf: BitwardenSiteMatch.logins(for: siteHost, in: snapshot.entries).prefix(5)
+          .map { BitwardenItems.item(for: $0, snapshot: snapshot) })
+    }
     if snapshot.entries.isEmpty {
       rows.append(
         BitwardenItems.message(
