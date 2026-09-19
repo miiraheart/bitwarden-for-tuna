@@ -4,7 +4,7 @@ import TunaKit
 import os
 
 public final class BitwardenCatalog: Catalog, StartupScanningCatalog, RetainedCatalogStateReleasing,
-  CatalogSortingProviding, CatalogDiagnosticsReporting
+  CatalogDiagnosticsReporting
 {
   public let identifier: String
   public let name: String
@@ -50,9 +50,6 @@ public final class BitwardenCatalog: Catalog, StartupScanningCatalog, RetainedCa
     reportScanFinished()
   }
 
-  @MainActor public var sortOptions: [CatalogSortOption] { BitwardenSort.options() }
-  @MainActor public var defaultSortOptionID: String { BitwardenSort.vaultOrderID }
-
   @MainActor public func diagnosticsSnapshot() -> CatalogDiagnosticsSnapshot {
     BitwardenVault.shared.diagnostics.withLock { $0 }.catalogSnapshot
   }
@@ -70,37 +67,6 @@ public final class BitwardenCatalog: Catalog, StartupScanningCatalog, RetainedCa
     case .idle, .working: return false
     default: return true
     }
-  }
-}
-
-enum BitwardenSort {
-  static let vaultOrderID = "vault-order"
-
-  static func options() -> [CatalogSortOption] {
-    [
-      CatalogSortOption(id: vaultOrderID, title: "Vault order", detail: "Groups first, then commands", comparator: vaultOrder),
-      CatalogSortOption(id: "name", title: "Name", comparator: byName),
-      CatalogSortOption(id: "recent", title: "Recently changed", detail: "Newest revision first", comparator: newerFirst),
-      CatalogSortOption(id: "favorites", title: "Favorites first", comparator: favoritesFirst),
-    ]
-  }
-
-  static func vaultOrder(_ lhs: CatalogItem, _ rhs: CatalogItem) -> Bool { false }
-
-  static func byName(_ lhs: CatalogItem, _ rhs: CatalogItem) -> Bool {
-    lhs.title.localizedCaseInsensitiveCompare(rhs.title) == .orderedAscending
-  }
-
-  static func newerFirst(_ lhs: CatalogItem, _ rhs: CatalogItem) -> Bool {
-    let left = (lhs as? BitwardenEntryItem)?.entry.revisionDate ?? .distantPast
-    let right = (rhs as? BitwardenEntryItem)?.entry.revisionDate ?? .distantPast
-    return left != right ? left > right : byName(lhs, rhs)
-  }
-
-  static func favoritesFirst(_ lhs: CatalogItem, _ rhs: CatalogItem) -> Bool {
-    let left = (lhs as? BitwardenEntryItem)?.entry.isFavorite ?? false
-    let right = (rhs as? BitwardenEntryItem)?.entry.isFavorite ?? false
-    return left != right ? left : byName(lhs, rhs)
   }
 }
 

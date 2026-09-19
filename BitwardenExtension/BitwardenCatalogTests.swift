@@ -209,31 +209,6 @@ final class BitwardenTreeTests: XCTestCase {
         identifier: "bitwarden", name: "Bitwarden", enabledByDefault: true, presentation: .liveSearch, settings: []))
   }
 
-  @MainActor func testSortOptionsKeepVaultOrderByDefault() {
-    let catalog = makeCatalog()
-    XCTAssertEqual(catalog.sortOptions.map(\.id), ["vault-order", "name", "recent", "favorites"])
-    XCTAssertEqual(catalog.defaultSortOptionID, "vault-order")
-  }
-
-  func testRecentAndFavoriteSortsUseEntryData() {
-    func login(_ name: String, revision: TimeInterval, favorite: Bool) -> BitwardenLoginItem {
-      BitwardenLoginItem(
-        entry: VaultEntry(
-          id: name, kind: .login, name: name, username: nil, uriHosts: [], websiteHost: nil, folderID: nil,
-          collectionIDs: [], organizationID: nil, isFavorite: favorite, requiresReprompt: false, hasTotp: false,
-          revisionDate: Date(timeIntervalSince1970: revision), identity: nil), folderName: nil)
-    }
-    let older = login("Alpha", revision: 1, favorite: false)
-    let newer = login("Zulu", revision: 2, favorite: true)
-    XCTAssertTrue(BitwardenSort.newerFirst(newer, older))
-    XCTAssertFalse(BitwardenSort.newerFirst(older, newer))
-    XCTAssertTrue(BitwardenSort.favoritesFirst(newer, older))
-    XCTAssertFalse(BitwardenSort.favoritesFirst(older, newer))
-    XCTAssertTrue(BitwardenSort.byName(older, newer))
-    XCTAssertFalse(BitwardenSort.vaultOrder(older, newer))
-    XCTAssertFalse(BitwardenSort.vaultOrder(newer, older))
-  }
-
   @MainActor func testDiagnosticsReportTheVaultState() {
     let metrics = makeCatalog().diagnosticsSnapshot().metrics
     XCTAssertNotNil(metrics["Vault"])

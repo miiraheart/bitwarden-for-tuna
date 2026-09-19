@@ -10,8 +10,8 @@
 - Logins for the site open in the frontmost browser come first when the entry opens (any browser,
   read through macOS Accessibility at that moment only).
 - Copy actions are headless-safe for hotkeys, Combo Mode and the tuna CLI; a cancelled Touch ID
-  ends the command quietly. Sort choices (Vault order, Name, Recently changed, Favorites first),
-  keyed matching while browsing groups, and vault diagnostics in Settings → Sources.
+  ends the command quietly. Keyed matching while browsing groups, and vault diagnostics in
+  Settings → Sources.
 - Touch ID (or Mac password) unlock with the master password kept in the macOS Keychain; the vault
   locks after idle time, on sleep, on screen lock and with Lock Vault. Copied secrets leave the
   clipboard after 30 seconds. Items never enter global search.

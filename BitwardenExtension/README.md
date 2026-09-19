@@ -33,9 +33,8 @@ Search for **Bitwarden** in Tuna and open it:
 - The copy actions run without showing Tuna when a global hotkey, a Combo Mode key or
   `tuna run --silent` triggers them. Touch ID still asks when the vault is locked; cancelling it
   ends the command quietly.
-- Tuna's sort control offers **Vault order** (default), **Name**, **Recently changed** and
-  **Favorites first** inside the entry and its groups. While browsing a group, typing matches the
-  name, username, website host and folder as separate keys.
+- While browsing a group, typing matches the name, username, website host and folder as separate
+  keys.
 - Generated values keep the concealed clipboard marker even when Tuna's own Copy or Paste action
   handles them.
 
