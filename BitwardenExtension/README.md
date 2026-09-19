@@ -27,7 +27,9 @@ Search for **Bitwarden** in Tuna and open it:
 - Type text anywhere in Tuna and choose **Search Bitwarden** to open the vault already searching
   for what you typed.
 - Combo Mode: bind a key to the **Search Bitwarden** action with the text `l:`, `n:` or `i:` to jump
-  straight into logins, notes or identities.
+  straight into logins, notes or identities. For a key that opens the whole vault, bind
+  **Run Text as Shell Command** with `~/.local/bin/tuna browse bitwarden/bitwarden` (needs the Tuna
+  CLI enabled in Settings > General).
 - The copy actions run without showing Tuna when a global hotkey, a Combo Mode key or
   `tuna run --silent` triggers them. Touch ID still asks when the vault is locked; cancelling it
   ends the command quietly.
